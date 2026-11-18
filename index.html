@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رسالة من القلب 💗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ Design tokens ============ */
+:root{
+  --night:#12081f; --plum:#2a1040; --rose:#ff6fa5; --blush:#ffc2da;
+  --lavender:#b79cff; --glow:#ff9ccb; --ink:#fff4fa;
+  --display:'Aref Ruqaa','Tajawal',serif; --body:'Tajawal',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:var(--body); color:var(--ink);
+  background:
+    radial-gradient(60% 50% at 20% 15%, rgba(255,111,165,.28), transparent 70%),
+    radial-gradient(55% 50% at 85% 85%, rgba(183,156,255,.28), transparent 70%),
+    linear-gradient(160deg,var(--plum),var(--night) 70%);
+  display:flex;align-items:center;justify-content:center;
+  padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom);
+}
+canvas#stars,canvas#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+canvas#confetti{z-index:50}
+.float-heart{position:fixed;bottom:-40px;pointer-events:none;z-index:1;opacity:0;
+  animation:rise linear forwards;filter:drop-shadow(0 0 8px rgba(255,111,165,.7))}
+@keyframes rise{
+  10%{opacity:.85} 100%{opacity:0;transform:translate(var(--dx),-110vh) rotate(var(--rot))}
+}
+
+/* ============ iOS glassmorphism button ============ */
+.glass{
+  position:relative;overflow:hidden;cursor:pointer;isolation:isolate;
+  font:700 1.1rem var(--body);color:#fff;letter-spacing:.2px;
+  padding:15px 34px;border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,160,205,.12));
+  -webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);
+  border:1px solid rgba(255,255,255,.45);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255,255,255,.65),
+    inset 0 -10px 18px rgba(255,105,170,.22),
+    0 10px 30px rgba(255,80,150,.30), 0 2px 6px rgba(0,0,0,.25);
+  text-shadow:0 1px 8px rgba(255,80,150,.6);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,filter .3s;
+}
+.glass::before{ /* glossy reflection */
+  content:"";position:absolute;z-index:-1;inset:2px 8% 52% 8%;border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));
+}
+.glass:hover{transform:scale(1.07);filter:brightness(1.08);
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.8),inset 0 -10px 18px rgba(255,105,170,.3),0 14px 40px rgba(255,80,150,.5)}
+.glass:active{transform:scale(.96)}
+.glass:focus-visible{outline:2px solid var(--blush);outline-offset:4px}
+.ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:-1;
+  background:radial-gradient(circle,rgba(255,255,255,.75),rgba(255,160,205,.2) 60%,transparent 70%);
+  transform:scale(0);animation:ripple .7s ease-out forwards}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+
+/* ============ Intro ============ */
+#intro{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:28px;
+  background:radial-gradient(circle at 50% 50%,#3b1458,var(--night));
+  transition:opacity 1.2s ease,visibility 1.2s}
+#intro.gone{opacity:0;visibility:hidden}
+.big-heart{width:110px;height:110px;position:relative;animation:beat 1.2s ease-in-out infinite}
+.big-heart svg{width:100%;height:100%;filter:drop-shadow(0 0 28px var(--rose)) drop-shadow(0 0 70px var(--rose))}
+#intro.gone .big-heart{transform:scale(14);transition:transform 1.4s ease-in}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.12)}}
+#intro p{font:400 1.6rem var(--display);color:var(--blush);opacity:0;animation:fadeIn 1.6s .6s forwards;text-shadow:0 0 18px var(--rose)}
+@keyframes fadeIn{to{opacity:1}}
+
+/* ============ Stage card ============ */
+#stage{position:relative;z-index:5;width:min(520px,100%);text-align:center;
+  padding:42px 28px 34px;border-radius:34px;opacity:0;transform:scale(.92);
+  background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
+  -webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);
+  border:1px solid rgba(255,255,255,.25);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.4),0 30px 80px rgba(0,0,0,.45),0 0 90px rgba(255,111,165,.18);
+  transition:opacity 1.2s .3s,transform 1.2s .3s cubic-bezier(.2,.8,.2,1)}
+#stage.show{opacity:1;transform:none}
+.dots{display:flex;gap:8px;justify-content:center;margin-bottom:26px}
+.dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);transition:.5s}
+.dots i.on{background:var(--rose);box-shadow:0 0 12px var(--rose);transform:scale(1.3)}
+#msg{font:400 1.75rem/1.9 var(--display);min-height:11.5rem;display:flex;align-items:center;justify-content:center;
+  color:var(--ink);text-shadow:0 0 22px rgba(255,111,165,.55)}
+#actions{margin-top:26px;min-height:58px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center}
+#actions .glass{animation:pop .6s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.6) translateY(14px)}}
+
+/* ============ Finale ============ */
+.question{font:700 clamp(2.1rem,9vw,3.1rem)/1.5 var(--display);
+  background:linear-gradient(90deg,#fff,var(--glow),var(--lavender),var(--glow),#fff);
+  background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 4s linear infinite,glowPulse 2.4s ease-in-out infinite}
+@keyframes shimmer{to{background-position:-250% 0}}
+@keyframes glowPulse{0%,100%{filter:drop-shadow(0 0 10px rgba(255,111,165,.7))}50%{filter:drop-shadow(0 0 26px rgba(255,111,165,1))}}
+.hint{margin-top:12px;font-size:.95rem;color:var(--blush);opacity:.85;min-height:1.4em}
+#no{z-index:60}
+.yes{font-size:1.2rem}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<canvas id="confetti"></canvas>
+
+<!-- Intro: glowing heart that expands into the scene -->
+<div id="intro">
+  <div class="big-heart">
+    <svg viewBox="0 0 32 29"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffb3d3"/><stop offset="1" stop-color="#ff4f93"/></linearGradient></defs>
+      <path fill="url(#hg)" d="M23.6 0c-3.4 0-5.700 2-7.600 4.300C14.100 2 11.800 0 8.400 0 3.600 0 0 3.700 0 8.600c0 7.800 8.700 13.600 14.400 19.100.9.900 2.300.9 3.200 0C23.300 22.200 32 16.400 32 8.600 32 3.700 28.400 0 23.600 0z"/></svg>
+  </div>
+  <p>في قلبي كلام ليكي...</p>
+</div>
+
+<!-- Main interactive card -->
+<main id="stage" aria-live="polite">
+  <div class="dots" id="dots"></div>
+  <div id="msg"></div>
+  <div id="actions"></div>
+  <div class="hint" id="hint"></div>
+</main>
+
+<script>
+/* =========================================================
+   1) CONTENT — edit the messages here
+   ========================================================= */
+const steps = [
+  { text: "في ناس بتعدّي في حياتنا فتعدّي... وفي واحدة جات فغيّرت كل حاجة.", btn: "كمّلي 💗" },
+  { text: "ضحكتك بتخلي أوحش يوم يبقى حلو، وصوتك أحلى من أي أغنية.", btn: "وبعدين؟ ✨" },
+  { text: "معاكي الدنيا بتهدى، وأنا بكون أنا من غير ما أمثّل.", btn: "كمّلي يا قمر 🌸" },
+  { text: "نفسي أكون أول حد تفتكريه الصبح، وآخر حد تكلميه بالليل.", btn: "طب والسؤال؟ 🥹" },
+  { text: "في سؤال واحد بس... بقالي كتير نفسي أسأله.", btn: "اسأل يا قلبي 💌" }
+];
+const QUESTION = "بتحبيني ي اوزعة؟";
+const dodgeLines = ["جرّبي تاني 😏","مش هتلحقيها! 🏃‍♀️","الإجابة الصح تحت 👇","ولا حتى فكرة! 💗","إيدك مش سريعة كفاية 😂"];
+const yesFinal = {
+  yes:  { title: "عارف 🥹💗", sub: "وأنا كمان بحبك... أكتر من أي كلام يتقال." },
+  more: { title: "مفيش أكتر من كده! 😭💖", sub: "بس أنا بحبك أكتر وأكتر، ده سباق أنا كسبان فيه." }
+};
+
+/* =========================================================
+   2) HELPERS
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const msg = $('#msg'), actions = $('#actions'), hint = $('#hint'), dots = $('#dots');
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/* Glass button factory with ripple effect */
+function makeButton(label, cls = '') {
+  const b = document.createElement('button');
+  b.className = 'glass ' + cls; b.type = 'button'; b.textContent = label;
+  b.addEventListener('pointerdown', e => {
+    const r = b.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2;
+    const s = document.createElement('span'); s.className = 'ripple';
+    s.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d/2}px;top:${e.clientY - r.top - d/2}px`;
+    b.appendChild(s); setTimeout(() => s.remove(), 700);
+  });
+  return b;
+}
+
+/* Typewriter: text is appended to one text node so Arabic letters keep joining */
+async function typeText(el, text, speed = 45) {
+  el.textContent = '';
+  if (reduceMotion) { el.textContent = text; return; }
+  const node = document.createTextNode(''); el.appendChild(node);
+  for (const ch of text) { node.data += ch; await sleep(ch === ' ' ? speed * 1.4 : speed); }
+}
+
+/* =========================================================
+   3) BACKGROUND — twinkling stars + floating hearts
+   ========================================================= */
+const sc = $('#stars'), sx = sc.getContext('2d'); let stars = [];
+function resizeStars() {
+  const dpr = devicePixelRatio || 1; sc.width = innerWidth * dpr; sc.height = innerHeight * dpr;
+  sx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  stars = Array.from({ length: Math.min(140, innerWidth / 5) }, () => ({
+    x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+    r: Math.random() * 1.6 + .3, p: Math.random() * 6.28, s: Math.random() * .02 + .005,
+    c: Math.random() > .5 ? '255,194,218' : '200,180,255'
+  }));
+}
+function drawStars() {
+  sx.clearRect(0, 0, innerWidth, innerHeight);
+  for (const s of stars) {
+    s.p += s.s; const a = .35 + Math.sin(s.p) * .35;
+    sx.beginPath(); sx.arc(s.x, s.y, s.r, 0, 6.28);
+    sx.fillStyle = `rgba(${s.c},${a})`; sx.shadowColor = `rgba(${s.c},.9)`; sx.shadowBlur = 8; sx.fill();
+  }
+  requestAnimationFrame(drawStars);
+}
+resizeStars(); drawStars(); addEventListener('resize', resizeStars);
+
+const heartEmoji = ['💗','💖','💕','🩷','✨','💜'];
+function spawnHeart() {
+  if (document.hidden || reduceMotion) return;
+  const h = document.createElement('div'); h.className = 'float-heart';
+  h.textContent = heartEmoji[Math.random() * heartEmoji.length | 0];
+  const dur = 7 + Math.random() * 6;
+  h.style.cssText = `left:${Math.random() * 100}vw;font-size:${12 + Math.random() * 22}px;animation-duration:${dur}s;` +
+    `--dx:${(Math.random() - .5) * 120}px;--rot:${(Math.random() - .5) * 90}deg`;
+  document.body.appendChild(h); setTimeout(() => h.remove(), dur * 1000);
+}
+setInterval(spawnHeart, 700);
+
+/* =========================================================
+   4) CONFETTI — hearts exploding across the screen
+   ========================================================= */
+const cc = $('#confetti'), cx = cc.getContext('2d'); let parts = [], raf = 0;
+function burst(x, y, n = 70) {
+  const dpr = devicePixelRatio || 1; cc.width = innerWidth * dpr; cc.height = innerHeight * dpr;
+  cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * 6.28, v = 4 + Math.random() * 10;
+    parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 4, g: .18, life: 1,
+      size: 14 + Math.random() * 22, rot: Math.random() * 6, vr: (Math.random() - .5) * .2,
+      e: heartEmoji[Math.random() * heartEmoji.length | 0] });
+  }
+  if (!raf) raf = requestAnimationFrame(tick);
+}
+function tick() {
+  cx.clearRect(0, 0, innerWidth, innerHeight);
+  parts = parts.filter(p => p.life > 0 && p.y < innerHeight + 60);
+  for (const p of parts) {
+    p.vy += p.g; p.x += p.vx; p.y += p.vy; p.vx *= .99; p.rot += p.vr; p.life -= .006;
+    cx.save(); cx.globalAlpha = Math.max(p.life, 0); cx.translate(p.x, p.y); cx.rotate(p.rot);
+    cx.font = p.size + 'px serif'; cx.textAlign = 'center'; cx.fillText(p.e, 0, 0); cx.restore();
+  }
+  raf = parts.length ? requestAnimationFrame(tick) : 0;
+  if (!raf) cx.clearRect(0, 0, innerWidth, innerHeight);
+}
+
+/* =========================================================
+   5) FLOW — intro → steps → grand finale
+   ========================================================= */
+let current = 0;
+steps.forEach(() => dots.appendChild(document.createElement('i')));
+const setDot = n => [...dots.children].forEach((d, i) => d.classList.toggle('on', i <= n));
+
+async function runIntro() {
+  await sleep(3400);
+  $('#intro').classList.add('gone');          // heart expands, curtain fades
+  await sleep(900);
+  $('#stage').classList.add('show');
+  await sleep(1300);
+  showStep(0);
+}
+
+async function showStep(i) {
+  current = i; setDot(i); actions.innerHTML = '';
+  await typeText(msg, steps[i].text);          // message reveals first...
+  const b = makeButton(steps[i].btn);          // ...then the next button unlocks
+  b.onclick = () => {
+    i + 1 < steps.length ? showStep(i + 1) : showFinale();
+  };
+  actions.appendChild(b);
+}
+
+async function showFinale() {
+  actions.innerHTML = ''; dots.style.visibility = 'hidden';
+  msg.innerHTML = ''; const q = document.createElement('div'); q.className = 'question'; q.textContent = QUESTION;
+  msg.appendChild(q);
+  await sleep(900);
+
+  const yes = makeButton('اه بحبك 💗', 'yes'), no = makeButton('لا مش بحبك 🙈');
+  no.id = 'no';
+  yes.onclick = () => celebrate('yes', yes);
+  actions.append(yes, no);
+
+  /* The playful "No": dodges every attempt to touch or click it */
+  let n = 0, floating = false;
+  const dodge = e => {
+    e && e.preventDefault();
+    if (!floating) { floating = true; const r = no.getBoundingClientRect();
+      no.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;margin:0`; document.body.appendChild(no); }
+    const pad = 16, w = no.offsetWidth, h = no.offsetHeight;
+    no.style.left = pad + Math.random() * (innerWidth - w - pad * 2) + 'px';
+    no.style.top  = pad + Math.random() * (innerHeight - h - pad * 2) + 'px';
+    no.style.transition = 'left .35s cubic-bezier(.34,1.56,.64,1), top .35s cubic-bezier(.34,1.56,.64,1), transform .3s';
+    hint.textContent = dodgeLines[n++ % dodgeLines.length];
+    yes.style.transform = `scale(${Math.min(1 + n * .06, 1.35)})`; // "yes" grows each time
+  };
+  ['pointerenter', 'touchstart', 'click'].forEach(ev => no.addEventListener(ev, dodge, { passive: false }));
+}
+
+function celebrate(kind, btn) {
+  const f = yesFinal[kind], r = btn.getBoundingClientRect();
+  $('#no')?.remove();
+  actions.innerHTML = ''; hint.textContent = '';
+  msg.innerHTML = `<div><div class="question" style="font-size:clamp(2rem,8vw,2.8rem)">${f.title}</div>
+    <p style="font:500 1.15rem/1.9 var(--body);margin-top:18px;color:var(--blush)">${f.sub}</p></div>`;
+  burst(r.left + r.width / 2, r.top, 90);
+  // keep the party going: a few more explosions across the screen
+  [300, 700, 1200, 1800].forEach(t => setTimeout(() =>
+    burst(innerWidth * (.15 + Math.random() * .7), innerHeight * (.2 + Math.random() * .4), 70), t));
+}
+
+runIntro();
+</script>
+</body>
+</html>
